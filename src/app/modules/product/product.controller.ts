@@ -155,57 +155,88 @@ const getProductById = catchAsync(
 
 const createProduct = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log('brand', req.body.brand)
+    // console.log('brand', req.body.brand)
+
     const formattedDate = moment.tz('Asia/Dhaka').format()
-    const newPost = {
-      brand: req.body.brand,
-      product_id: req.body.product_id || '1',
-      model: req.body.model || null,
-      ime: req.body.ime || null,
-      image: req.body.image || null,
+    const userId = req.body.user_id
 
-      receive_date: req.body.receive_date,
-      delivery_date: req.body.delivery_date,
-      problem: req.body.problem,
-      status: req.body.status,
-      bill: req.body.bill,
-      customer_name: req.body.customer_name,
-
-      customer_number: req.body.customer_number,
-      paid: req.body.paid,
-      due: req.body.due,
-
-      created_at: formattedDate,
-      updated_at: formattedDate,
-    }
-    // console.log('data', newPost)
+    const currentYear = moment().year()
+    const currentMonth = moment().format('MM')
+    const prefix = `P${currentYear}${currentMonth}${userId}`
 
     connection.query(
-      'INSERT INTO products SET ?',
-      newPost,
+      'SELECT product_id FROM products WHERE product_id LIKE ? ORDER BY product_id DESC LIMIT 1',
+      [`${prefix}%`],
       (error: any, results: any, fields: any) => {
         if (error) {
-          console.error('Error creating newPost:', error)
+          console.error('Error fetching latest product_id:', error)
           return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             success: false,
             message: 'Internal Server Error',
             errorMessages: [
               {
                 path: req.originalUrl,
-                message: 'Error creating newPost',
+                message: 'Error fetching latest product_id',
               },
             ],
           })
         }
 
-        const createdPostId = results.insertId
+        const lastProductId = results[0]?.product_id || `${prefix}0000`
+        const lastSequenceNumber = parseInt(lastProductId.slice(-4), 10)
+        const newSequenceNumber = lastSequenceNumber + 1
+        const newProductId = `${prefix}${newSequenceNumber
+          .toString()
+          .padStart(4, '0')}`
 
-        sendResponse(res, {
-          statusCode: httpStatus.CREATED,
-          success: true,
-          message: 'Post created successfully',
-          data: { id: createdPostId },
-        })
+        const newPost = {
+          brand: req.body.brand,
+          user_id: userId,
+          product_id: newProductId,
+          model: req.body.model || null,
+          ime: req.body.ime || null,
+          image: req.body.image || null,
+          receive_date: req.body.receive_date,
+          delivery_date: req.body.delivery_date,
+          problem: req.body.problem,
+          status: req.body.status,
+          bill: req.body.bill,
+          customer_name: req.body.customer_name,
+          customer_number: req.body.customer_number,
+          paid: req.body.paid,
+          due: req.body.due,
+          created_at: formattedDate,
+          updated_at: formattedDate,
+        }
+
+        connection.query(
+          'INSERT INTO products SET ?',
+          newPost,
+          (error: any, results: any, fields: any) => {
+            if (error) {
+              console.error('Error creating newPost:', error)
+              return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                success: false,
+                message: 'Internal Server Error',
+                errorMessages: [
+                  {
+                    path: req.originalUrl,
+                    message: 'Error creating newPost',
+                  },
+                ],
+              })
+            }
+
+            const createdPostId = results.insertId
+
+            sendResponse(res, {
+              statusCode: httpStatus.CREATED,
+              success: true,
+              message: 'Post created successfully',
+              data: { id: createdPostId },
+            })
+          }
+        )
       }
     )
   }
