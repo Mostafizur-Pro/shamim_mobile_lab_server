@@ -110,7 +110,7 @@ const getProductById = catchAsync(
     const postId = req.params.id
 
     connection.query(
-      'SELECT * FROM products WHERE id = ?',
+      'SELECT * FROM products WHERE product_id = ?',
       [postId],
       (error: any, results: any, fields: any) => {
         if (error) {
@@ -228,12 +228,17 @@ const createProduct = catchAsync(
             }
 
             const createdPostId = results.insertId
+            const printData = {
+              product_id: newProductId,
+              customer_name: req.body.customer_name,
+              customer_number: req.body.customer_number,
+            }
 
             sendResponse(res, {
               statusCode: httpStatus.CREATED,
               success: true,
               message: 'Post created successfully',
-              data: { id: createdPostId },
+              data: { id: createdPostId, printData },
             })
           }
         )
