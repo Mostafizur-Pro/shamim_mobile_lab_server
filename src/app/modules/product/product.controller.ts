@@ -160,7 +160,7 @@ const createProduct = catchAsync(
     const formattedDate = moment.tz('Asia/Dhaka').format()
     const userId = req.body.user_id
 
-    const currentYear = moment().year()
+    const currentYear = moment().format('YY')
     const currentMonth = moment().format('MM')
     const prefix = `P${currentYear}${currentMonth}${userId}`
 
@@ -187,7 +187,7 @@ const createProduct = catchAsync(
         const newSequenceNumber = lastSequenceNumber + 1
         const newProductId = `${prefix}${newSequenceNumber
           .toString()
-          .padStart(4, '0')}`
+          .padStart(3, '0')}`
 
         const newPost = {
           brand: req.body.brand,
