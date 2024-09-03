@@ -157,7 +157,7 @@ const createUser = catchAsync(
 const updateUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params.id
-    const { name, number, email, password } = req.body
+    const { name, number, email, role } = req.body
 
     const updatedFields: { [key: string]: any } = {}
 
@@ -170,8 +170,8 @@ const updateUser = catchAsync(
     if (email !== undefined) {
       updatedFields.email = email
     }
-    if (password !== undefined) {
-      updatedFields.password = password
+    if (role !== undefined) {
+      updatedFields.role = role
     }
 
     if (Object.keys(updatedFields).length === 0) {
