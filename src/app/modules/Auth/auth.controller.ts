@@ -8,6 +8,7 @@ export interface User {
   email: string
   name: string
   phone_number: string
+  password: string
 }
 
 const login = async (req: Request, res: Response) => {
@@ -65,7 +66,60 @@ const getProfile = (req: any, res: Response) => {
     }
   )
 }
+
+const changePassword = async (req: Request, res: Response) => {
+  const { currentPassword, newPassword, id } = req.body
+
+  if (!currentPassword || !newPassword) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Missing required fields.' })
+  }
+
+  try {
+    const connection = await pool.getConnection()
+
+    const [userData]: any = await connection.query(
+      'SELECT * FROM user WHERE id = ?',
+      [id]
+    )
+
+    if (!userData) {
+      connection.release()
+      return res
+        .status(404)
+        .json({ success: false, message: 'Employee not found.' })
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, userData[0].password)
+
+    if (!isMatch) {
+      connection.release()
+      return res
+        .status(401)
+        .json({ success: false, message: 'Current password is incorrect.' })
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10)
+
+    await connection.query('UPDATE user SET password = ? WHERE id = ?', [
+      hashedNewPassword,
+      id,
+    ])
+
+    connection.release()
+
+    res
+      .status(200)
+      .json({ success: true, message: 'Password updated successfully.' })
+  } catch (error) {
+    console.error('Error changing password:', error)
+    res.status(500).json({ success: false, message: 'Internal Server Error.' })
+  }
+}
+
 export const authController = {
   login,
   getProfile,
+  changePassword,
 }
