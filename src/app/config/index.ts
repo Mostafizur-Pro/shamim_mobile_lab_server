@@ -31,7 +31,7 @@ export const config = {
   jwt_refresh_expires_in: '750d',
   EMAIL_PORT: 587,
   EMAIL_USER: 'mostafizur0195@gmail.com',
-  EMAIL_PASSWORD: 'tfme ryse zmvl tat',
+  EMAIL_PASSWORD: 'fvuv gexs gnym zxrx',
   EMAIL_FROM: 'mostafizur0195@gmail.com',
 }
 

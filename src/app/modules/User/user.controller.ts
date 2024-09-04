@@ -5,6 +5,7 @@ import catchAsync from '../../../shared/catchAsync'
 import moment from 'moment-timezone'
 import bcrypt from 'bcryptjs'
 import { connection } from '../../config'
+import { sendEmail } from './user.constant'
 
 export const userFilterableFields = ['searchTerm', 'title', 'syncId']
 
@@ -103,56 +104,122 @@ const getUserById = catchAsync(
   }
 )
 
-const createUser = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { name, number, role, email, password } = req.body
+// const createUser = catchAsync(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     const { name, number, role, email, password } = req.body
 
-    const formattedDate = moment.tz('Asia/Dhaka').format()
-    const hashedPassword = await bcrypt.hash(password, 10)
+//     const formattedDate = moment.tz('Asia/Dhaka').format()
+//     const hashedPassword = await bcrypt.hash(password, 10)
 
-    const newUser = {
-      name,
-      image:
-        'https://www.vhv.rs/dpng/d/15-155087_dummy-image-of-user-hd-png-download.png',
-      number,
-      email,
-      password: hashedPassword,
-      role: role || 'user',
-      action: 'pending',
-      created_at: formattedDate,
-      updated_at: formattedDate,
-    }
+//     const newUser = {
+//       name,
+//       image:
+//         'https://www.vhv.rs/dpng/d/15-155087_dummy-image-of-user-hd-png-download.png',
+//       number,
+//       email,
+//       password: hashedPassword,
+//       role: role || 'user',
+//       action: 'pending',
+//       created_at: formattedDate,
+//       updated_at: formattedDate,
+//     }
 
-    connection.query(
-      'INSERT INTO user SET ?',
-      newUser,
-      (error: any, results: any, fields: any) => {
-        if (error) {
-          console.error('Error creating user:', error)
-          return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: 'Internal Server Error',
-            errorMessages: [
-              {
-                path: req.originalUrl,
-                message: 'Error creating user',
-              },
-            ],
-          })
-        }
+//     connection.query(
+//       'INSERT INTO user SET ?',
+//       newUser,
+//       (error: any, results: any, fields: any) => {
+//         if (error) {
+//           console.error('Error creating user:', error)
+//           return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+//             success: false,
+//             message: 'Internal Server Error',
+//             errorMessages: [
+//               {
+//                 path: req.originalUrl,
+//                 message: 'Error creating user',
+//               },
+//             ],
+//           })
+//         }
 
-        const createdUserId = results.insertId
+//         const createdUserId = results.insertId
 
-        sendResponse(res, {
-          statusCode: httpStatus.CREATED,
-          success: true,
-          message: 'User created successfully',
-          data: { id: createdUserId },
+//           sendEmail(
+//             'mostafizur0195@gmail.com',
+//             'New Match Request',
+//             `You have a new match request. View details at: `
+//           ),
+
+//         sendResponse(res, {
+//           statusCode: httpStatus.CREATED,
+//           success: true,
+//           message: 'User created successfully',
+//           data: { id: createdUserId },
+//         })
+//       }
+//     )
+//   }
+// )
+
+const createUser = catchAsync(async (req, res, next) => {
+  const { name, number, role, email, password } = req.body
+
+  const formattedDate = moment.tz('Asia/Dhaka').format()
+  const hashedPassword = await bcrypt.hash(password, 10)
+
+  const newUser = {
+    name,
+    image:
+      'https://www.vhv.rs/dpng/d/15-155087_dummy-image-of-user-hd-png-download.png',
+    number,
+    email,
+    password: hashedPassword,
+    role: role || 'user',
+    action: 'pending',
+    created_at: formattedDate,
+    updated_at: formattedDate,
+  }
+
+  connection.query(
+    'INSERT INTO user SET ?',
+    newUser,
+    async (error, results: any) => {
+      if (error) {
+        console.error('Error creating user:', error)
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+          success: false,
+          message: 'Internal Server Error',
+          errorMessages: [
+            {
+              path: req.originalUrl,
+              message: 'Error creating user',
+            },
+          ],
         })
       }
-    )
-  }
-)
+
+      const createdUserId = results.insertId
+
+      // try {
+      //   // Wait for email to be sent
+      //   await sendEmail(
+      //     'mostafizur0195@gmail.com',
+      //     'New Match Request',
+      //     `You have a new match request. View details at: [URL]`
+      //   )
+      // } catch (emailError) {
+      //   console.error('Error sending email:', emailError)
+      //   // Handle email sending error appropriately
+      // }
+
+      res.status(httpStatus.CREATED).json({
+        success: true,
+        message: 'User created successfully',
+        data: { id: createdUserId },
+      })
+    }
+  )
+})
 
 const updateUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

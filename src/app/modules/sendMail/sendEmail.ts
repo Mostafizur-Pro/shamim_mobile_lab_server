@@ -1,7 +1,6 @@
 import nodemailer from 'nodemailer'
 import nodeSchedule from 'node-schedule'
 import ExcelJS from 'exceljs'
-import fs from 'fs'
 import moment from 'moment-timezone'
 import { config } from '../../config'
 
@@ -74,7 +73,7 @@ async function sendEmail(): Promise<void> {
 // Function to get the current time in BST and schedule the job accordingly
 function scheduleEmail(): void {
   const currentTime = moment().tz('Asia/Dhaka')
-  const targetTime = moment.tz('15:09', 'HH:mm', 'Asia/Dhaka')
+  const targetTime = moment.tz('17:32', 'HH:mm', 'Asia/Dhaka')
 
   // If current time is past the target time, schedule for the next day
   if (currentTime.isAfter(targetTime)) {

@@ -82,6 +82,13 @@
   resolved "https://registry.npmjs.org/@tsconfig/node16/-/node16-1.0.4.tgz"
   integrity sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==
 
+"@types/aws-sdk2-types@*":
+  version "0.0.5"
+  resolved "https://registry.npmjs.org/@types/aws-sdk2-types/-/aws-sdk2-types-0.0.5.tgz"
+  integrity sha512-FIOe05YZpdvafyZxlAmflV5jStj2TJoyFBtLJvXJnQauxQGFSVrazauVws1mlLRwS0GnITlFipNh0kHWdnUU1g==
+  dependencies:
+    "@types/node" "*"
+
 "@types/bcryptjs@^2.4.6":
   version "2.4.6"
   resolved "https://registry.npmjs.org/@types/bcryptjs/-/bcryptjs-2.4.6.tgz"
@@ -176,6 +183,39 @@
   version "14.18.63"
   resolved "https://registry.npmjs.org/@types/node/-/node-14.18.63.tgz"
   integrity sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==
+
+"@types/nodemailer-direct-transport@*":
+  version "1.0.35"
+  resolved "https://registry.npmjs.org/@types/nodemailer-direct-transport/-/nodemailer-direct-transport-1.0.35.tgz"
+  integrity sha512-D3CqXuU4WcHflbFF/ZMG4gXRU2OJKzv44XgPKX3FxLxU1nWz6l+hsAkN7dcBvBSu74muXUxd8EGioBW04iWZ5g==
+  dependencies:
+    "@types/nodemailer" "^3"
+
+"@types/nodemailer-ses-transport@*":
+  version "1.5.5"
+  resolved "https://registry.npmjs.org/@types/nodemailer-ses-transport/-/nodemailer-ses-transport-1.5.5.tgz"
+  integrity sha512-QL1SjkySMfpjnPEkPLZHY/wZleEboGsEruuZzDCI2dk/VDShoizX2smF859MDFLbtA/yHE/u7+7U/lkNgSe0Gg==
+  dependencies:
+    "@types/aws-sdk2-types" "*"
+    "@types/nodemailer" "^3"
+
+"@types/nodemailer-smtp-transport@*", "@types/nodemailer-smtp-transport@^2.7.8":
+  version "2.7.8"
+  resolved "https://registry.npmjs.org/@types/nodemailer-smtp-transport/-/nodemailer-smtp-transport-2.7.8.tgz"
+  integrity sha512-r+6LLaO4VtzP2FFLjOZGXpsm1Oz4wm5U9BdiMPfOFiIJhpPRmNKFXrzuBZUufRJoHhNi+NnS7Igy+m8ZyrADQg==
+  dependencies:
+    "@types/node" "*"
+    "@types/nodemailer" "^3"
+
+"@types/nodemailer@^3":
+  version "3.1.14"
+  resolved "https://registry.npmjs.org/@types/nodemailer/-/nodemailer-3.1.14.tgz"
+  integrity sha512-8PYFpsjpGMOk3i4XRPM0piXa1OtGckjDjrvXAuKYZjXuvAI6XcrD/cN3f5MrqNVPDZGyxtlvQdhGzXo/D/uS/Q==
+  dependencies:
+    "@types/node" "*"
+    "@types/nodemailer-direct-transport" "*"
+    "@types/nodemailer-ses-transport" "*"
+    "@types/nodemailer-smtp-transport" "*"
 
 "@types/nodemailer@^6.4.15":
   version "6.4.15"
@@ -1041,6 +1081,19 @@ http-status@^1.7.4:
   resolved "https://registry.npmjs.org/http-status/-/http-status-1.7.4.tgz"
   integrity sha512-c2qSwNtTlHVYAhMj9JpGdyo0No/+DiKXCJ9pHtZ2Yf3QmPnBIytKSRT7BuyIiQ7icXLynavGmxUqkOjSrAuMuA==
 
+httpntlm@1.6.1:
+  version "1.6.1"
+  resolved "https://registry.npmjs.org/httpntlm/-/httpntlm-1.6.1.tgz"
+  integrity sha512-Tcz3Ct9efvNqw3QdTl3h6IgRRlIQxwKkJELN/aAIGnzi2xvb3pDHdnMs8BrxWLV6OoT4DlVyhzSVhFt/tk0lIw==
+  dependencies:
+    httpreq ">=0.4.22"
+    underscore "~1.7.0"
+
+httpreq@>=0.4.22:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/httpreq/-/httpreq-1.1.1.tgz"
+  integrity sha512-uhSZLPPD2VXXOSN8Cni3kIsoFHaU2pT/nySEU/fHr/ePbqHYr0jeiQRmUKLEirC09SFPsdMoA7LU7UXMd/w0Kw==
+
 iconv-lite@^0.6.3:
   version "0.6.3"
   resolved "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.6.3.tgz"
@@ -1457,6 +1510,13 @@ negotiator@0.6.3:
   resolved "https://registry.npmjs.org/negotiator/-/negotiator-0.6.3.tgz"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
 
+node-cron@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npmjs.org/node-cron/-/node-cron-3.0.3.tgz"
+  integrity sha512-dOal67//nohNgYWb+nWmg5dkFdIwDm8EpeGYMekPMrngV3637lqnX0lbUcCtgibHTz6SEz7DAIjKvKDFYCnO1A==
+  dependencies:
+    uuid "8.3.2"
+
 node-domexception@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/node-domexception/-/node-domexception-1.0.0.tgz"
@@ -1484,6 +1544,32 @@ node-schedule@^2.1.1:
     cron-parser "^4.2.0"
     long-timeout "0.1.1"
     sorted-array-functions "^1.3.0"
+
+nodemailer-fetch@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/nodemailer-fetch/-/nodemailer-fetch-1.6.0.tgz"
+  integrity sha512-P7S5CEVGAmDrrpn351aXOLYs1R/7fD5NamfMCHyi6WIkbjS2eeZUB/TkuvpOQr0bvRZicVqo59+8wbhR3yrJbQ==
+
+nodemailer-shared@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/nodemailer-shared/-/nodemailer-shared-1.1.0.tgz"
+  integrity sha512-68xW5LSyPWv8R0GLm6veAvm7E+XFXkVgvE3FW0FGxNMMZqMkPFeGDVALfR1DPdSfcoO36PnW7q5AAOgFImEZGg==
+  dependencies:
+    nodemailer-fetch "1.6.0"
+
+nodemailer-smtp-transport@^2.7.4:
+  version "2.7.4"
+  resolved "https://registry.npmjs.org/nodemailer-smtp-transport/-/nodemailer-smtp-transport-2.7.4.tgz"
+  integrity sha512-1e86YhJ633OZWk3OHWS5TpuoYXG/LtY2/RzNiB5+EkFifDdqHCNHBnExd5cobx0ZSHJLNGM8EKnDuHRFIjFi6Q==
+  dependencies:
+    nodemailer-shared "1.1.0"
+    nodemailer-wellknown "0.1.10"
+    smtp-connection "2.12.0"
+
+nodemailer-wellknown@0.1.10:
+  version "0.1.10"
+  resolved "https://registry.npmjs.org/nodemailer-wellknown/-/nodemailer-wellknown-0.1.10.tgz"
+  integrity sha512-/VV4mjAEjfm2fn0loUvrpjvugw5rgurNjPO4WU24CuVSoeumsyLOTgaEWG8WoGdPxh1biOAp5JxDoy1hlA2zsw==
 
 nodemailer@^6.9.15:
   version "6.9.15"
@@ -1795,6 +1881,14 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
+smtp-connection@2.12.0:
+  version "2.12.0"
+  resolved "https://registry.npmjs.org/smtp-connection/-/smtp-connection-2.12.0.tgz"
+  integrity sha512-UP5jK4s5SGcUcqPN4U9ingqKt9mXYSKa52YhqxPuMecAnUOsVJpOmtgGaOm1urUBJZlzDt1M9WhZZkgbhxQlvg==
+  dependencies:
+    httpntlm "1.6.1"
+    nodemailer-shared "1.1.0"
+
 socket.io-adapter@~2.5.2:
   version "2.5.4"
   resolved "https://registry.npmjs.org/socket.io-adapter/-/socket.io-adapter-2.5.4.tgz"
@@ -1988,6 +2082,11 @@ typescript@*, typescript@^5.4.2, typescript@>=2.7:
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.4.2.tgz"
   integrity sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==
 
+underscore@~1.7.0:
+  version "1.7.0"
+  resolved "https://registry.npmjs.org/underscore/-/underscore-1.7.0.tgz"
+  integrity sha512-cp0oQQyZhUM1kpJDLdGO1jPZHgS/MpzoWYfe9+CM2h/QGDZlqwT2T3YGukuBdaNJ/CAPoeyAZRRHz8JFo176vA==
+
 undici-types@~5.26.4:
   version "5.26.5"
   resolved "https://registry.npmjs.org/undici-types/-/undici-types-5.26.5.tgz"
@@ -2024,7 +2123,7 @@ utils-merge@1.0.1:
   resolved "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
 
-uuid@^8.3.0:
+uuid@^8.3.0, uuid@8.3.2:
   version "8.3.2"
   resolved "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
