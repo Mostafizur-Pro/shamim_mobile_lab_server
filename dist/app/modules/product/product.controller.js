@@ -90,7 +90,7 @@ const getAllProducts = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
 }));
 const getProductById = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const postId = req.params.id;
-    config_1.connection.query('SELECT * FROM products WHERE id = ?', [postId], (error, results, fields) => {
+    config_1.connection.query('SELECT * FROM products WHERE product_id = ?', [postId], (error, results, fields) => {
         if (error) {
             console.error('Error fetching post:', error);
             return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({
@@ -126,47 +126,77 @@ const getProductById = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
     });
 }));
 const createProduct = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('brand', req.body.brand);
     const formattedDate = moment_timezone_1.default.tz('Asia/Dhaka').format();
-    const newPost = {
-        brand: req.body.brand,
-        product_id: req.body.product_id || '1',
-        model: req.body.model || null,
-        ime: req.body.ime || null,
-        image: req.body.image || null,
-        receive_date: req.body.receive_date,
-        delivery_date: req.body.delivery_date,
-        problem: req.body.problem,
-        status: req.body.status,
-        bill: req.body.bill,
-        customer_name: req.body.customer_name,
-        customer_number: req.body.customer_number,
-        paid: req.body.paid,
-        due: req.body.due,
-        created_at: formattedDate,
-        updated_at: formattedDate,
-    };
-    // console.log('data', newPost)
-    config_1.connection.query('INSERT INTO products SET ?', newPost, (error, results, fields) => {
+    const userId = req.body.user_id;
+    const currentYear = (0, moment_timezone_1.default)().format('YY');
+    const currentMonth = (0, moment_timezone_1.default)().format('MM');
+    const prefix = `P${currentYear}${currentMonth}${userId}`;
+    config_1.connection.query('SELECT product_id FROM products WHERE product_id LIKE ? ORDER BY product_id DESC LIMIT 1', [`${prefix}%`], (error, results, fields) => {
+        var _a;
         if (error) {
-            console.error('Error creating newPost:', error);
+            console.error('Error fetching latest product_id:', error);
             return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({
                 success: false,
                 message: 'Internal Server Error',
                 errorMessages: [
                     {
                         path: req.originalUrl,
-                        message: 'Error creating newPost',
+                        message: 'Error fetching latest product_id',
                     },
                 ],
             });
         }
-        const createdPostId = results.insertId;
-        (0, sendResponse_1.default)(res, {
-            statusCode: http_status_1.default.CREATED,
-            success: true,
-            message: 'Post created successfully',
-            data: { id: createdPostId },
+        const lastProductId = ((_a = results[0]) === null || _a === void 0 ? void 0 : _a.product_id) || `${prefix}0000`;
+        const lastSequenceNumber = parseInt(lastProductId.slice(-4), 10);
+        const newSequenceNumber = lastSequenceNumber + 1;
+        const newProductId = `${prefix}${newSequenceNumber
+            .toString()
+            .padStart(3, '0')}`;
+        const newPost = {
+            brand: req.body.brand,
+            user_id: userId,
+            product_id: newProductId,
+            model: req.body.model || null,
+            ime: req.body.ime || null,
+            image: req.body.image || null,
+            receive_date: req.body.receive_date,
+            delivery_date: req.body.delivery_date,
+            problem: req.body.problem,
+            status: req.body.status,
+            bill: req.body.bill,
+            customer_name: req.body.customer_name,
+            customer_number: req.body.customer_number,
+            paid: req.body.paid,
+            due: req.body.due,
+            created_at: formattedDate,
+            updated_at: formattedDate,
+        };
+        config_1.connection.query('INSERT INTO products SET ?', newPost, (error, results, fields) => {
+            if (error) {
+                console.error('Error creating newPost:', error);
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({
+                    success: false,
+                    message: 'Internal Server Error',
+                    errorMessages: [
+                        {
+                            path: req.originalUrl,
+                            message: 'Error creating newPost',
+                        },
+                    ],
+                });
+            }
+            const createdPostId = results.insertId;
+            const printData = {
+                product_id: newProductId,
+                customer_name: req.body.customer_name,
+                customer_number: req.body.customer_number,
+            };
+            (0, sendResponse_1.default)(res, {
+                statusCode: http_status_1.default.CREATED,
+                success: true,
+                message: 'Post created successfully',
+                data: { id: createdPostId, printData },
+            });
         });
     });
 }));

@@ -10,9 +10,5 @@ const auth_middleware_1 = require("./auth.middleware");
 const router = express_1.default.Router();
 router.post('/login', auth_controller_1.authController.login);
 router.get('/profile', auth_middleware_1.authenticateUserToken, auth_controller_1.authController.getProfile);
+router.post('/change-password', auth_controller_1.authController.changePassword);
 exports.authRoutes = router;
-/*
-i will send welcome message in masking SMS used API
-provide backend and frontend code
-
-*/

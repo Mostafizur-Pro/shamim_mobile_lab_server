@@ -18,7 +18,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.get('/', (req: Request, res: Response) => {
   res.send({
-    Message: 'demo_project server..',
+    Message: 'mobile lab server..',
   })
 })
 

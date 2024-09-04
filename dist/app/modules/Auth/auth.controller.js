@@ -22,7 +22,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const connection = yield config_1.pool.getConnection();
         const [userData] = yield connection.query('SELECT * FROM user WHERE email = ?', [email]);
         const user = userData[0];
-        console.log('data', user);
         if (!user) {
             return res.status(401).json({ message: 'Invalid credentials.' });
         }
@@ -34,7 +33,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, 
         // "secret",
         config_1.config.jwt_secret, { expiresIn: '1y' });
-        res.status(200).json({ token });
+        res.status(200).json({ token, user });
     }
     catch (error) {
         console.error('Error logging in:', error);
@@ -51,7 +50,46 @@ const getProfile = (req, res) => {
         res.json({ user: results[0] });
     });
 };
+const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { currentPassword, newPassword, id } = req.body;
+    if (!currentPassword || !newPassword) {
+        return res
+            .status(400)
+            .json({ success: false, message: 'Missing required fields.' });
+    }
+    try {
+        const connection = yield config_1.pool.getConnection();
+        const [userData] = yield connection.query('SELECT * FROM user WHERE id = ?', [id]);
+        if (!userData) {
+            connection.release();
+            return res
+                .status(404)
+                .json({ success: false, message: 'Employee not found.' });
+        }
+        const isMatch = yield bcryptjs_1.default.compare(currentPassword, userData[0].password);
+        if (!isMatch) {
+            connection.release();
+            return res
+                .status(401)
+                .json({ success: false, message: 'Current password is incorrect.' });
+        }
+        const hashedNewPassword = yield bcryptjs_1.default.hash(newPassword, 10);
+        yield connection.query('UPDATE user SET password = ? WHERE id = ?', [
+            hashedNewPassword,
+            id,
+        ]);
+        connection.release();
+        res
+            .status(200)
+            .json({ success: true, message: 'Password updated successfully.' });
+    }
+    catch (error) {
+        console.error('Error changing password:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error.' });
+    }
+});
 exports.authController = {
     login,
     getProfile,
+    changePassword,
 };

@@ -23,7 +23,7 @@ const login = async (req: Request, res: Response) => {
     )
 
     const user = userData[0]
-    console.log('data', user)
+
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials.' })
     }

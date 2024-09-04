@@ -32,4 +32,9 @@ exports.config = {
     jwt_expires_in: '3d',
     jwt_refresh_token: 'very very secret',
     jwt_refresh_expires_in: '750d',
+    EMAIL_PORT: 587,
+    EMAIL_USER: 'mostafizur0195@gmail.com',
+    EMAIL_PASSWORD: 'tfme ryse zmvl tat',
+    EMAIL_FROM: 'mostafizur0195@gmail.com',
 };
+// https://g.co/kgs/Wk7kFBG

@@ -134,7 +134,7 @@ const createUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 
 }));
 const updateUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.id;
-    const { name, number, email, password } = req.body;
+    const { name, number, email, role } = req.body;
     const updatedFields = {};
     if (name !== undefined) {
         updatedFields.name = name;
@@ -145,8 +145,8 @@ const updateUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 
     if (email !== undefined) {
         updatedFields.email = email;
     }
-    if (password !== undefined) {
-        updatedFields.password = password;
+    if (role !== undefined) {
+        updatedFields.role = role;
     }
     if (Object.keys(updatedFields).length === 0) {
         return res.status(http_status_1.default.BAD_REQUEST).json({

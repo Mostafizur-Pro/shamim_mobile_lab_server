@@ -155,8 +155,6 @@ const getProductById = catchAsync(
 
 const createProduct = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    // console.log('brand', req.body.brand)
-
     const formattedDate = moment.tz('Asia/Dhaka').format()
     const userId = req.body.user_id
 

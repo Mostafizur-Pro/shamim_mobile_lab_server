@@ -1,187 +1,181 @@
-import { Request, Response } from "express";
-import catchAsync from "../../../shared/catchAsync";
-const path = require("path");
-const express = require("express");
+import { Request, Response } from 'express'
+import catchAsync from '../../../shared/catchAsync'
+const path = require('path')
+const express = require('express')
 
-const app = express();
+const app = express()
 
 const getImage = catchAsync(async (req: Request, res: Response) => {
-  const { imageName } = req.params;
+  const { imageName } = req.params
   const imagePath = path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "..",
+    '..',
+    '..',
+    '..',
+    '..',
     // "uploads",
     imageName
-  );
+  )
 
-  const cacheControl = `public, max-age=${3600 * 24 * 30}`; // Cache for 30 days
-  res.set("Cache-Control", cacheControl);
+  const cacheControl = `public, max-age=${3600 * 24 * 30}` // Cache for 30 days
+  res.set('Cache-Control', cacheControl)
 
   res.sendFile(imagePath, (err) => {
     if (err) {
-      console.error("Error sending file:", err);
-      res.status(404).send("Image not found");
+      console.error('Error sending file:', err)
+      res.status(404).send('Image not found')
     }
-  });
-});
+  })
+})
 
 const getClientImage = catchAsync(async (req: Request, res: Response) => {
-  const { imageName } = req.params;
-
-  // console.log('data', imageName)
+  const { imageName } = req.params
 
   const imagePath = path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "..",
+    '..',
+    '..',
+    '..',
+    '..',
     // "uploads",
-    "images",
-    "client",
+    'images',
+    'client',
     imageName
-  );
-  const cacheControl = `public, max-age=${3600 * 24 * 30}`; // Cache for 30 days
-  res.set("Cache-Control", cacheControl);
+  )
+  const cacheControl = `public, max-age=${3600 * 24 * 30}` // Cache for 30 days
+  res.set('Cache-Control', cacheControl)
 
   res.sendFile(imagePath, (err) => {
     if (err) {
-      console.error("Error sending file:", err);
-      res.status(404).send("Image not found");
+      console.error('Error sending file:', err)
+      res.status(404).send('Image not found')
     }
-  });
-});
+  })
+})
 const getUserImage = catchAsync(async (req: Request, res: Response) => {
-  const { imageName } = req.params;
+  const { imageName } = req.params
 
   const imagePath = path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "..",
+    '..',
+    '..',
+    '..',
+    '..',
     // "uploads",
-    "images",
-    "user",
+    'images',
+    'user',
     imageName
-  );
-  const cacheControl = `public, max-age=${3600 * 24 * 30}`; // Cache for 30 days
-  res.set("Cache-Control", cacheControl);
+  )
+  const cacheControl = `public, max-age=${3600 * 24 * 30}` // Cache for 30 days
+  res.set('Cache-Control', cacheControl)
 
   res.sendFile(imagePath, (err) => {
     if (err) {
-      console.error("Error sending file:", err);
-      res.status(404).send("Image not found");
+      console.error('Error sending file:', err)
+      res.status(404).send('Image not found')
     }
-  });
-});
+  })
+})
 
 const getAdminImage = catchAsync(async (req: Request, res: Response) => {
-  const { imageName } = req.params;
+  const { imageName } = req.params
 
   const imagePath = path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "..",
+    '..',
+    '..',
+    '..',
+    '..',
     // "uploads",
-    "images",
-    "admin_image",
+    'images',
+    'admin_image',
     imageName
-  );
+  )
 
-  const cacheControl = `public, max-age=${3600 * 24 * 30}`; // Cache for 30 days
-  res.set("Cache-Control", cacheControl);
+  const cacheControl = `public, max-age=${3600 * 24 * 30}` // Cache for 30 days
+  res.set('Cache-Control', cacheControl)
 
   res.sendFile(imagePath, (err) => {
     if (err) {
-      console.error("Error sending file:", err);
-      res.status(404).send("Image not found");
+      console.error('Error sending file:', err)
+      res.status(404).send('Image not found')
     }
-  });
-});
+  })
+})
 
 const getEmployeeImage = catchAsync(async (req: Request, res: Response) => {
-  const { imageName } = req.params;
+  const { imageName } = req.params
 
   const imagePath = path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "..",
+    '..',
+    '..',
+    '..',
+    '..',
     // "uploads",
-    "images",
-    "employee",
+    'images',
+    'employee',
     imageName
-  );
+  )
 
-  const cacheControl = `public, max-age=${3600 * 24 * 30}`; // Cache for 30 days
-  res.set("Cache-Control", cacheControl);
+  const cacheControl = `public, max-age=${3600 * 24 * 30}` // Cache for 30 days
+  res.set('Cache-Control', cacheControl)
 
   res.sendFile(imagePath, (err) => {
     if (err) {
-      console.error("Error sending file:", err);
-      res.status(404).send("Image not found");
+      console.error('Error sending file:', err)
+      res.status(404).send('Image not found')
     }
-  });
-});
+  })
+})
 const getPaidImage = catchAsync(async (req: Request, res: Response) => {
-  const { imageName } = req.params;
+  const { imageName } = req.params
 
   const imagePath = path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "..",
+    '..',
+    '..',
+    '..',
+    '..',
     // "uploads",
-    "images",
-    "paidImage",
+    'images',
+    'paidImage',
     imageName
-  );
-  const cacheControl = `public, max-age=${3600 * 24 * 30}`; // Cache for 30 days
-  res.set("Cache-Control", cacheControl);
+  )
+  const cacheControl = `public, max-age=${3600 * 24 * 30}` // Cache for 30 days
+  res.set('Cache-Control', cacheControl)
 
   res.sendFile(imagePath, (err) => {
     if (err) {
-      console.error("Error sending file:", err);
-      res.status(404).send("Image not found");
+      console.error('Error sending file:', err)
+      res.status(404).send('Image not found')
     }
-  });
-});
+  })
+})
 const getHallRoomPost = catchAsync(async (req: Request, res: Response) => {
-  const { imageName } = req.params;
+  const { imageName } = req.params
 
   const imagePath = path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "..",
+    '..',
+    '..',
+    '..',
+    '..',
     // "uploads",
-    "images",
-    "hallRoomPost",
+    'images',
+    'hallRoomPost',
     imageName
-  );
-  const cacheControl = `public, max-age=${3600 * 24 * 30}`; // Cache for 30 days
-  res.set("Cache-Control", cacheControl);
+  )
+  const cacheControl = `public, max-age=${3600 * 24 * 30}` // Cache for 30 days
+  res.set('Cache-Control', cacheControl)
 
   res.sendFile(imagePath, (err) => {
     if (err) {
-      console.error("Error sending file:", err);
-      res.status(404).send("Image not found");
+      console.error('Error sending file:', err)
+      res.status(404).send('Image not found')
     }
-  });
-});
-
-
-
-
+  })
+})
 
 export const ImageController = {
   getImage,
@@ -191,5 +185,4 @@ export const ImageController = {
   getEmployeeImage,
   getPaidImage,
   getHallRoomPost,
-
-};
+}
