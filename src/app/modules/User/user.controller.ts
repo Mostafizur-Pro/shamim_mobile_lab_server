@@ -164,12 +164,17 @@ const getUserById = catchAsync(
 const createUser = catchAsync(async (req, res, next) => {
   const { name, number, role, email, password } = req.body
 
+  const image = req.file?.path
+
+  console.log('image', image)
+
   const formattedDate = moment.tz('Asia/Dhaka').format()
   const hashedPassword = await bcrypt.hash(password, 10)
 
   const newUser = {
     name,
     image:
+      image ||
       'https://www.vhv.rs/dpng/d/15-155087_dummy-image-of-user-hd-png-download.png',
     number,
     email,
@@ -279,6 +284,7 @@ const updateUser = catchAsync(
 const deleteUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params.id
+    console.log('data', userId)
 
     connection.query(
       'DELETE FROM user WHERE id = ?',
