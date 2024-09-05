@@ -158,6 +158,8 @@ const createProduct = catchAsync(
     const formattedDate = moment.tz('Asia/Dhaka').format()
     const userId = req.body.user_id
 
+    const image = req.file?.path
+
     const currentYear = moment().format('YY')
     const currentMonth = moment().format('MM')
     const prefix = `P${currentYear}${currentMonth}${userId}`
@@ -193,7 +195,7 @@ const createProduct = catchAsync(
           product_id: newProductId,
           model: req.body.model || null,
           ime: req.body.ime || null,
-          image: req.body.image || null,
+          image: image || null,
           receive_date: req.body.receive_date,
           delivery_date: req.body.delivery_date,
           problem: req.body.problem,
@@ -207,6 +209,7 @@ const createProduct = catchAsync(
           updated_at: formattedDate,
         }
 
+        console.log('data', newPost)
         connection.query(
           'INSERT INTO products SET ?',
           newPost,
