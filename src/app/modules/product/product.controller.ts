@@ -192,6 +192,7 @@ const createProduct = catchAsync(
         const newPost = {
           brand: req.body.brand,
           user_id: userId,
+          user_name: req.body.user_name,
           product_id: newProductId,
           model: req.body.model || null,
           ime: req.body.ime || null,
