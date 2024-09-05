@@ -94,13 +94,67 @@ const getUserById = (0, catchAsync_1.default)((req, res, next) => __awaiter(void
         });
     });
 }));
+// const createUser = catchAsync(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     const { name, number, role, email, password } = req.body
+//     const formattedDate = moment.tz('Asia/Dhaka').format()
+//     const hashedPassword = await bcrypt.hash(password, 10)
+//     const newUser = {
+//       name,
+//       image:
+//         'https://www.vhv.rs/dpng/d/15-155087_dummy-image-of-user-hd-png-download.png',
+//       number,
+//       email,
+//       password: hashedPassword,
+//       role: role || 'user',
+//       action: 'pending',
+//       created_at: formattedDate,
+//       updated_at: formattedDate,
+//     }
+//     connection.query(
+//       'INSERT INTO user SET ?',
+//       newUser,
+//       (error: any, results: any, fields: any) => {
+//         if (error) {
+//           console.error('Error creating user:', error)
+//           return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+//             success: false,
+//             message: 'Internal Server Error',
+//             errorMessages: [
+//               {
+//                 path: req.originalUrl,
+//                 message: 'Error creating user',
+//               },
+//             ],
+//           })
+//         }
+//         const createdUserId = results.insertId
+//           sendEmail(
+//             'mostafizur0195@gmail.com',
+//             'New Match Request',
+//             `You have a new match request. View details at: `
+//           ),
+//         sendResponse(res, {
+//           statusCode: httpStatus.CREATED,
+//           success: true,
+//           message: 'User created successfully',
+//           data: { id: createdUserId },
+//         })
+//       }
+//     )
+//   }
+// )
 const createUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { name, number, role, email, password } = req.body;
+    const image = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
+    console.log('image', image);
     const formattedDate = moment_timezone_1.default.tz('Asia/Dhaka').format();
     const hashedPassword = yield bcryptjs_1.default.hash(password, 10);
     const newUser = {
         name,
-        image: 'https://www.vhv.rs/dpng/d/15-155087_dummy-image-of-user-hd-png-download.png',
+        image: image ||
+            'https://www.vhv.rs/dpng/d/15-155087_dummy-image-of-user-hd-png-download.png',
         number,
         email,
         password: hashedPassword,
@@ -109,7 +163,7 @@ const createUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 
         created_at: formattedDate,
         updated_at: formattedDate,
     };
-    config_1.connection.query('INSERT INTO user SET ?', newUser, (error, results, fields) => {
+    config_1.connection.query('INSERT INTO user SET ?', newUser, (error, results) => __awaiter(void 0, void 0, void 0, function* () {
         if (error) {
             console.error('Error creating user:', error);
             return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({
@@ -124,13 +178,23 @@ const createUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 
             });
         }
         const createdUserId = results.insertId;
-        (0, sendResponse_1.default)(res, {
-            statusCode: http_status_1.default.CREATED,
+        // try {
+        //   // Wait for email to be sent
+        //   await sendEmail(
+        //     'mostafizur0195@gmail.com',
+        //     'New Match Request',
+        //     `You have a new match request. View details at: [URL]`
+        //   )
+        // } catch (emailError) {
+        //   console.error('Error sending email:', emailError)
+        //   // Handle email sending error appropriately
+        // }
+        res.status(http_status_1.default.CREATED).json({
             success: true,
             message: 'User created successfully',
             data: { id: createdUserId },
         });
-    });
+    }));
 }));
 const updateUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.id;
@@ -177,6 +241,7 @@ const updateUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 
 }));
 const deleteUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.id;
+    console.log('data', userId);
     config_1.connection.query('DELETE FROM user WHERE id = ?', [userId], (error, results, fields) => {
         if (error) {
             console.error('Error deleting user:', error);

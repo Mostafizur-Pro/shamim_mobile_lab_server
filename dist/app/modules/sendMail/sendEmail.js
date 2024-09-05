@@ -83,7 +83,7 @@ function sendEmail() {
 // Function to get the current time in BST and schedule the job accordingly
 function scheduleEmail() {
     const currentTime = (0, moment_timezone_1.default)().tz('Asia/Dhaka');
-    const targetTime = moment_timezone_1.default.tz('15:09', 'HH:mm', 'Asia/Dhaka');
+    const targetTime = moment_timezone_1.default.tz('17:32', 'HH:mm', 'Asia/Dhaka');
     // If current time is past the target time, schedule for the next day
     if (currentTime.isAfter(targetTime)) {
         targetTime.add(1, 'day');

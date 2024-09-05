@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadClient = void 0;
+exports.multerUser = void 0;
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const cors_1 = __importDefault(require("cors"));
@@ -12,13 +12,13 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 const storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'images/client');
+        cb(null, 'images/user');
     },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + path_1.default.extname(file.originalname));
     },
 });
-exports.uploadClient = (0, multer_1.default)({
+exports.multerUser = (0, multer_1.default)({
     storage,
     fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith('image')) {

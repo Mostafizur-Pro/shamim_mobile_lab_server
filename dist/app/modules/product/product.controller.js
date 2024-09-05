@@ -126,8 +126,10 @@ const getProductById = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
     });
 }));
 const createProduct = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const formattedDate = moment_timezone_1.default.tz('Asia/Dhaka').format();
     const userId = req.body.user_id;
+    const image = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
     const currentYear = (0, moment_timezone_1.default)().format('YY');
     const currentMonth = (0, moment_timezone_1.default)().format('MM');
     const prefix = `P${currentYear}${currentMonth}${userId}`;
@@ -155,10 +157,12 @@ const createProduct = (0, catchAsync_1.default)((req, res, next) => __awaiter(vo
         const newPost = {
             brand: req.body.brand,
             user_id: userId,
+            user_name: req.body.user_name,
             product_id: newProductId,
             model: req.body.model || null,
             ime: req.body.ime || null,
-            image: req.body.image || null,
+            image: image ||
+                'https://img.freepik.com/free-vector/hand-drawn-phone-cartoon-illustration_23-2150616513.jpg?t=st=1725519341~exp=1725522941~hmac=902ea2293a1eb61cdd0eeaa50f4ec901cd03b753817fd1d3b86f8d8b4ffd77b9&w=826',
             receive_date: req.body.receive_date,
             delivery_date: req.body.delivery_date,
             problem: req.body.problem,
@@ -171,6 +175,7 @@ const createProduct = (0, catchAsync_1.default)((req, res, next) => __awaiter(vo
             created_at: formattedDate,
             updated_at: formattedDate,
         };
+        // console.log('data', newPost)
         config_1.connection.query('INSERT INTO products SET ?', newPost, (error, results, fields) => {
             if (error) {
                 console.error('Error creating newPost:', error);
