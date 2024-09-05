@@ -195,7 +195,9 @@ const createProduct = catchAsync(
           product_id: newProductId,
           model: req.body.model || null,
           ime: req.body.ime || null,
-          image: image || null,
+          image:
+            image ||
+            'https://img.freepik.com/free-vector/hand-drawn-phone-cartoon-illustration_23-2150616513.jpg?t=st=1725519341~exp=1725522941~hmac=902ea2293a1eb61cdd0eeaa50f4ec901cd03b753817fd1d3b86f8d8b4ffd77b9&w=826',
           receive_date: req.body.receive_date,
           delivery_date: req.body.delivery_date,
           problem: req.body.problem,
@@ -209,7 +211,7 @@ const createProduct = catchAsync(
           updated_at: formattedDate,
         }
 
-        console.log('data', newPost)
+        // console.log('data', newPost)
         connection.query(
           'INSERT INTO products SET ?',
           newPost,
